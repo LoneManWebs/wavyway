@@ -627,6 +627,9 @@
     </footer>
 
     <script>
+        // API base URL template literal
+        const base = `http://localhost:3000`;
+
         // Mobile menu toggle
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
             const menu = document.getElementById('mobileMenu');
@@ -662,7 +665,7 @@
         // Load menu items from API
         async function loadMenuItems() {
             try {
-                const response = await fetch('/api/menu');
+                const response = await fetch(`${base}/api/menu`);
                 const items = await response.json();
                 
                 const container = document.getElementById('menuContainer');
@@ -809,7 +812,7 @@
         // Load testimonials
         async function loadTestimonials() {
             try {
-                const response = await fetch('/api/testimonials');
+                const response = await fetch(`${base}/api/testimonials`);
                 const testimonials = await response.json();
                 
                 const container = document.getElementById('testimonialsContainer');
@@ -916,7 +919,7 @@
             };
             
             try {
-                const response = await fetch('/api/testimonials', {
+                const response = await fetch(`${base}/api/testimonials`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -977,6 +980,7 @@
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
             console.log('Wavy Way loaded! 🌊');
+            console.log('API Base URL:', base);
             loadMenuItems();
             loadTestimonials();
             
