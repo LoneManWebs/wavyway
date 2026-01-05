@@ -1,0 +1,1025 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wavy Way | Fast Food Restaurant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --mcd-red: #DA291C;
+            --mcd-yellow: #FFBC0D;
+            --mcd-dark-red: #C41E3A;
+            --mcd-light-yellow: #FFF4D4;
+            --mcd-white: #FFFFFF;
+            --mcd-black: #27251F;
+        }
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        h1, h2, h3, .logo-text, .brand-font {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(218, 41, 28, 0.9), rgba(255, 188, 13, 0.8)),
+                        url('https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?ixlib=rb-4.0.3&auto=format&fit=crop&w=1740&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .nav-link {
+            position: relative;
+            padding: 8px 0;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--mcd-yellow);
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover::after {
+            width: 100%;
+        }
+        
+        .menu-category.active {
+            background-color: var(--mcd-red);
+            color: white;
+            transform: scale(1.05);
+            box-shadow: 0 4px 12px rgba(218, 41, 28, 0.3);
+        }
+        
+        .menu-item-card {
+            transition: all 0.3s ease;
+            border: 2px solid #FFE8A3;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .menu-item-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .menu-item-card:hover::before {
+            left: 100%;
+        }
+        
+        .menu-item-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            border-color: var(--mcd-yellow);
+        }
+        
+        .price-badge {
+            background: linear-gradient(135deg, var(--mcd-red), var(--mcd-dark-red));
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, var(--mcd-white) 0%, var(--mcd-light-yellow) 100%);
+            border-top: 4px solid var(--mcd-yellow);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .testimonial-card::after {
+            content: '"';
+            position: absolute;
+            top: -20px;
+            right: 20px;
+            font-size: 120px;
+            color: rgba(255, 188, 13, 0.1);
+            font-family: serif;
+        }
+        
+        .rating-stars {
+            color: var(--mcd-yellow);
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        
+        .category-badge {
+            background-color: var(--mcd-light-yellow);
+            color: var(--mcd-black);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .logo-animation {
+            animation: wave 3s ease-in-out infinite;
+        }
+        
+        @keyframes wave {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-5px) rotate(2deg); }
+            75% { transform: translateY(-3px) rotate(-1deg); }
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--mcd-red), var(--mcd-dark-red));
+            color: white;
+            font-weight: 700;
+            padding: 12px 32px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.7s ease;
+        }
+        
+        .btn-primary:hover::before {
+            left: 100%;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(218, 41, 28, 0.3);
+        }
+        
+        .btn-secondary {
+            background: var(--mcd-yellow);
+            color: var(--mcd-black);
+            font-weight: 700;
+            padding: 12px 32px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(255, 188, 13, 0.3);
+            background: #FFD700;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s ease;
+            border: 2px solid transparent;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--mcd-yellow);
+            box-shadow: 0 15px 40px rgba(255, 188, 13, 0.2);
+        }
+        
+        .feature-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--mcd-red), var(--mcd-dark-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: white;
+            transition: all 0.4s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotateY(360deg);
+            background: linear-gradient(135deg, var(--mcd-yellow), #FFD700);
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .bounce-animation {
+            animation: bounce 2s ease infinite;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .text-gradient {
+            background: linear-gradient(135deg, var(--mcd-red), var(--mcd-yellow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .single-location-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+            border: 3px solid var(--mcd-yellow);
+            text-align: center;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .location-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--mcd-red), var(--mcd-dark-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 32px;
+            color: white;
+        }
+        
+        .logo-img {
+            border-radius: 50%;
+            border: 4px solid var(--mcd-yellow);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-white text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-lg sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center space-x-3">
+                    <!-- Your Provided Logo -->
+                    <div class="logo-animation">
+                        <img src="https://otlob.cyou/leylandi-m/2l.jpg" 
+                             alt="Wavy Way Logo" class="h-12 w-12 rounded-full logo-img">
+                    </div>
+                    <span class="brand-font text-3xl font-bold text-red-600">Wavy <span class="text-yellow-500">Way</span></span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition">Home</a>
+                    <a href="#menu" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition">Menu</a>
+                    <a href="#deals" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition">Deals</a>
+                    <a href="#testimonials" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition">Reviews</a>
+                    <a href="#locations" class="nav-link text-gray-700 hover:text-red-600 font-semibold transition">Location</a>
+                </div>
+                
+                <button id="mobileMenuBtn" class="md:hidden text-gray-700">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div id="mobileMenu" class="md:hidden hidden mt-4 pb-4 border-t">
+                <div class="flex flex-col space-y-4 mt-4">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-red-600">Home</a>
+                    <a href="#menu" class="nav-link text-gray-700 hover:text-red-600">Menu</a>
+                    <a href="#deals" class="nav-link text-gray-700 hover:text-red-600">Deals</a>
+                    <a href="#testimonials" class="nav-link text-gray-700 hover:text-red-600">Reviews</a>
+                    <a href="#locations" class="nav-link text-gray-700 hover:text-red-600">Location</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+        <!-- Floating elements -->
+        <div class="absolute top-10 left-10 w-20 h-20 bg-yellow-400 rounded-full opacity-20 floating-animation"></div>
+        <div class="absolute bottom-20 right-10 w-32 h-32 bg-red-500 rounded-full opacity-10 floating-animation" style="animation-delay: 1s;"></div>
+        <div class="absolute top-1/2 left-1/4 w-16 h-16 bg-white rounded-full opacity-10 floating-animation" style="animation-delay: 2s;"></div>
+        
+        <div class="container mx-auto px-4 py-16 relative z-10">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-6xl md:text-7xl font-bold mb-6 text-white">
+                    <span class="bounce-animation">Wavy</span> <span class="text-yellow-300">Way</span>
+                </h1>
+                <p class="text-2xl text-white mb-8 font-medium">
+                    Your <span class="text-yellow-300 font-bold">NEW CRAVE</span> in town 🍟
+                </p>
+                <div class="flex flex-wrap justify-center gap-6 mb-12">
+                    <a href="#menu" class="btn-primary text-lg">
+                        <i class="fas fa-hamburger mr-2"></i> View Full Menu
+                    </a>
+                    <a href="#deals" class="btn-secondary text-lg">
+                        <i class="fas fa-tag mr-2"></i> Today's Deals
+                    </a>
+                </div>
+                
+                <!-- Order Counter -->
+                <div class="bg-white/20 backdrop-blur-sm rounded-2xl p-6 inline-block">
+                    <div class="flex items-center justify-center space-x-4">
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white">1M+</div>
+                            <div class="text-yellow-200">Happy Customers</div>
+                        </div>
+                        <div class="h-12 w-px bg-white/30"></div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white">Since 2020</div>
+                            <div class="text-yellow-200">Serving You</div>
+                        </div>
+                        <div class="h-12 w-px bg-white/30"></div>
+                        <div class="text-center">
+                            <div class="text-4xl font-bold text-white">24/7</div>
+                            <div class="text-yellow-200">Service</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-gradient-to-b from-white to-yellow-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 text-gradient">Why Choose Wavy Way?</h2>
+                <p class="text-gray-600 text-xl max-w-3xl mx-auto">We're not just fast food - we're WAVY food! Experience the difference.</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-3 text-gray-900">Lightning Fast</h3>
+                    <p class="text-gray-600 text-center">Get your food in minutes, fresh and hot. We value your time as much as you do!</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-3 text-gray-900">Fresh Ingredients</h3>
+                    <p class="text-gray-600 text-center">100% fresh beef, crispy veggies, and premium buns. Quality you can taste!</p>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-tags"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-center mb-3 text-gray-900">Unbeatable Deals</h3>
+                    <p class="text-gray-600 text-center">Daily specials, combo meals, and family packs that won't break the bank!</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section -->
+    <section id="menu" class="py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 text-gradient">Our Wavy Menu</h2>
+                <p class="text-gray-600 text-xl max-w-3xl mx-auto">From classic burgers to wavy creations - something for everyone!</p>
+            </div>
+            
+            <!-- Category Filter -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12" id="categoryFilter">
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="all">
+                    All Items
+                </button>
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="burgers">
+                    🍔 Burgers
+                </button>
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="chicken">
+                    🍗 Chicken
+                </button>
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="fries">
+                    🍟 Fries & Sides
+                </button>
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="drinks">
+                    🥤 Drinks
+                </button>
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="desserts">
+                    🍦 Desserts
+                </button>
+                <button class="menu-category px-6 py-3 rounded-full border-2 border-yellow-400 bg-white text-gray-800 font-bold transition hover:bg-red-50" data-category="breakfast">
+                    🥞 Breakfast
+                </button>
+            </div>
+            
+            <!-- Menu Items Container -->
+            <div id="menuContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Menu items will be loaded here dynamically -->
+            </div>
+            
+            <!-- Special Deals Banner -->
+            <div id="deals" class="mt-20 bg-gradient-to-r from-red-600 to-yellow-500 rounded-2xl p-8 text-center text-white">
+                <h3 class="text-3xl font-bold mb-4">🔥 TODAY'S SPECIAL DEALS 🔥</h3>
+                <p class="text-xl mb-6">Family Pack: 4 Burgers + 4 Fries + 4 Drinks = Only $29.99!</p>
+                <button class="bg-white text-red-600 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition">
+                    <i class="fas fa-fire mr-2"></i> GRAB THIS DEAL!
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-gradient-to-b from-yellow-50 to-white">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 text-gradient">What Our Customers Say</h2>
+                <p class="text-gray-600 text-xl max-w-3xl mx-auto">Don't just take our word for it - hear from our wavy community!</p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12" id="testimonialsContainer">
+                <!-- Testimonials will be loaded here -->
+            </div>
+            
+            <!-- Add Testimonial Form -->
+            <div class="max-w-2xl mx-auto bg-white p-8 rounded-2xl shadow-xl border-2 border-yellow-200">
+                <h3 class="text-3xl font-bold mb-6 text-center text-gradient">Share Your Wavy Experience</h3>
+                <form id="testimonialForm">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-semibold">Your Name</label>
+                            <input type="text" id="customerName" required 
+                                   class="w-full px-4 py-3 border-2 border-yellow-200 rounded-xl focus:outline-none focus:border-red-500 transition">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2 font-semibold">Rating</label>
+                            <select id="rating" class="w-full px-4 py-3 border-2 border-yellow-200 rounded-xl focus:outline-none focus:border-red-500 transition">
+                                <option value="5">⭐⭐⭐⭐⭐ 5 Stars</option>
+                                <option value="4">⭐⭐⭐⭐ 4 Stars</option>
+                                <option value="3">⭐⭐⭐ 3 Stars</option>
+                                <option value="2">⭐⭐ 2 Stars</option>
+                                <option value="1">⭐ 1 Star</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 mb-2 font-semibold">Your Review</label>
+                        <textarea id="comment" required rows="4"
+                                  class="w-full px-4 py-3 border-2 border-yellow-200 rounded-xl focus:outline-none focus:border-red-500 transition"
+                                  placeholder="Tell us about your wavy experience..."></textarea>
+                    </div>
+                    <button type="submit" 
+                            class="w-full btn-primary py-4 text-lg">
+                        <i class="fas fa-paper-plane mr-2"></i> Submit Review
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Single Location Section -->
+    <section id="locations" class="py-20 bg-gradient-to-r from-red-50 to-yellow-50">
+        <div class="container mx-auto px-4">
+            <div class="text-center mb-16">
+                <h2 class="text-5xl font-bold mb-4 text-gradient">Our Location</h2>
+                <p class="text-gray-600 text-xl max-w-3xl mx-auto">Come visit us at our one and only flagship restaurant!</p>
+            </div>
+            
+            <div class="single-location-card">
+                <div class="location-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <h3 class="text-3xl font-bold mb-3 text-gray-900">Wavy Way Flagship</h3>
+                <p class="text-gray-600 text-xl mb-6">123 Food Street, Taste City, TC 12345</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-red-600 mb-2">
+                            <i class="fas fa-phone mr-2"></i> Phone
+                        </div>
+                        <p class="text-gray-700">(555) 123-WAVY</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-2xl font-bold text-red-600 mb-2">
+                            <i class="fas fa-clock mr-2"></i> Hours
+                        </div>
+                        <p class="text-gray-700">24/7 • 365 Days</p>
+                    </div>
+                </div>
+                
+                <div class="mb-8">
+                    <h4 class="text-xl font-bold mb-4 text-gray-800">Restaurant Features:</h4>
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">
+                            <i class="fas fa-wifi mr-2"></i> Free WiFi
+                        </span>
+                        <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">
+                            <i class="fas fa-car mr-2"></i> Drive-Thru
+                        </span>
+                        <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">
+                            <i class="fas fa-utensils mr-2"></i> Dine-In
+                        </span>
+                        <span class="bg-yellow-100 text-yellow-800 px-4 py-2 rounded-full font-medium">
+                            <i class="fas fa-motorcycle mr-2"></i> Delivery
+                        </span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-100 p-4 rounded-xl">
+                    <h4 class="font-bold mb-2 text-gray-800"><i class="fas fa-star text-yellow-500 mr-2"></i> Why only one location?</h4>
+                    <p class="text-gray-600">We believe in quality over quantity! Our single location allows us to focus 100% on delivering the best possible experience to every customer who walks through our doors.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <img src="https://instagram.fbey14-1.fna.fbcdn.net/v/t51.2885-19/504258958_17845870830496833_534187080392727105_n.jpg?stp=dst-jpg_s150x150_tt6&efg=eyJ2ZW5jb2RlX3RhZyI6InByb2ZpbGVfcGljLmRqYW5nby4xMDgwLmMyIn0&_nc_ht=instagram.fbey14-1.fna.fbcdn.net&_nc_cat=109&_nc_oc=Q6cZ2QFEbUZJHytKQeplq9_rZxQeBL-GyIjxi_l18sVqwREafA85RwRvVOQhcfOhcJ_x3sA&_nc_ohc=ziO_KwIWNO8Q7kNvwGmvI-r&_nc_gid=-J2pYqdrjjYJHH8FD9jD_g&edm=APoiHPcBAAAA&ccb=7-5&oh=00_AfodwWiHRt_9qqKbrQdJSYeidt0UV0cUolcgd-hzyZNjxA&oe=695F1D4D&_nc_sid=22de04" 
+                             alt="Wavy Way Logo" class="h-10 w-10 rounded-full">
+                        <span class="brand-font text-2xl font-bold text-white">Wavy <span class="text-yellow-400">Way</span></span>
+                    </div>
+                    <p class="text-gray-300 mb-4">Making waves in fast food since 2020. Burgers, fries, shakes, and everything that makes life wavy!</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center hover:bg-red-700 transition">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-yellow-400">Quick Links</h3>
+                    <div class="space-y-3">
+                        <a href="#menu" class="block text-gray-300 hover:text-yellow-400 transition">Menu</a>
+                        <a href="#deals" class="block text-gray-300 hover:text-yellow-400 transition">Deals</a>
+                        <a href="#locations" class="block text-gray-300 hover:text-yellow-400 transition">Location</a>
+                        <a href="#testimonials" class="block text-gray-300 hover:text-yellow-400 transition">Reviews</a>
+                        <a href="#" class="block text-gray-300 hover:text-yellow-400 transition">Careers</a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold mb-6 text-yellow-400">Contact Us</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-yellow-400"></i>
+                            <span>123 Food Street, Taste City, TC 12345</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone mr-3 text-yellow-400"></i>
+                            <span>(555) 123-WAVY</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope mr-3 text-yellow-400"></i>
+                            <span>hello@wavyway.com</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-clock mr-3 text-yellow-400"></i>
+                            <span>Open 24/7 • 365 Days</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Wavy Way. All rights reserved. | Made with <i class="fas fa-heart text-red-500"></i> for food lovers!</p>
+                <p class="mt-2 text-sm">One location • Unlimited waves of flavor!</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        });
+
+        // Category filtering
+        let currentCategory = 'all';
+        const categoryButtons = document.querySelectorAll('.menu-category');
+        
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                categoryButtons.forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('bg-red-600', 'text-white');
+                    btn.classList.add('bg-white', 'text-gray-800');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active', 'bg-red-600', 'text-white');
+                this.classList.remove('bg-white', 'text-gray-800');
+                
+                currentCategory = this.dataset.category;
+                loadMenuItems();
+            });
+        });
+
+        // Set first button as active
+        categoryButtons[0].classList.add('active', 'bg-red-600', 'text-white');
+        categoryButtons[0].classList.remove('bg-white', 'text-gray-800');
+
+        // Load menu items from API
+        async function loadMenuItems() {
+            try {
+                const response = await fetch('/api/menu');
+                const items = await response.json();
+                
+                const container = document.getElementById('menuContainer');
+                container.innerHTML = '';
+                
+                const filteredItems = currentCategory === 'all' 
+                    ? items 
+                    : items.filter(item => item.category === currentCategory);
+                
+                filteredItems.forEach(item => {
+                    const itemElement = document.createElement('div');
+                    itemElement.className = 'menu-item-card bg-white rounded-2xl overflow-hidden';
+                    itemElement.innerHTML = `
+                        <div class="relative h-56 overflow-hidden">
+                            <img src="${item.image_url || 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80'}" 
+                                 alt="${item.name}" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                            <div class="absolute top-4 right-4 category-badge">
+                                ${item.category}
+                            </div>
+                            <div class="absolute bottom-4 left-4 price-badge">
+                                $${item.price.toFixed(2)}
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-3">${item.name}</h3>
+                            <p class="text-gray-600 mb-6">${item.description || 'Delicious wavy goodness!'}</p>
+                            <div class="text-center">
+                                <button class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold px-8 py-3 rounded-full transition transform hover:scale-105 w-full">
+                                    <i class="fas fa-info-circle mr-2"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    container.appendChild(itemElement);
+                });
+                
+                // If no items found
+                if (filteredItems.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-3 text-center py-12">
+                            <div class="inline-block p-8 bg-yellow-50 rounded-2xl">
+                                <i class="fas fa-hamburger text-6xl text-yellow-500 mb-4"></i>
+                                <h3 class="text-2xl font-bold text-gray-700 mb-2">No items found</h3>
+                                <p class="text-gray-500">Check back later for new wavy items!</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading menu items:', error);
+                // Fallback to sample data
+                loadSampleMenu();
+            }
+        }
+
+        // Load sample menu if API fails
+        function loadSampleMenu() {
+            const sampleItems = [
+                {
+                    id: 1,
+                    name: "Wavy Classic Burger",
+                    description: "100% beef patty with cheese, lettuce, tomato, and special wavy sauce",
+                    price: 5.99,
+                    category: "burgers",
+                    image_url: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    id: 2,
+                    name: "Crispy Chicken Sandwich",
+                    description: "Crispy chicken fillet with mayo and pickles on a toasted bun",
+                    price: 6.49,
+                    category: "chicken",
+                    image_url: "https://images.unsplash.com/photo-1562967916-eb82221dfb92?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    id: 3,
+                    name: "Wave Fries",
+                    description: "Freshly cut potatoes fried to perfection with sea salt",
+                    price: 3.49,
+                    category: "fries",
+                    image_url: "https://images.unsplash.com/photo-1576107232684-1279f390859f?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    id: 4,
+                    name: "Chocolate Wave Shake",
+                    description: "Creamy chocolate milkshake topped with whipped cream",
+                    price: 4.99,
+                    category: "drinks",
+                    image_url: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    id: 5,
+                    name: "Apple Wave Pie",
+                    description: "Warm apple pie with cinnamon sugar crust",
+                    price: 2.99,
+                    category: "desserts",
+                    image_url: "https://images.unsplash.com/photo-1565958011703-44f9829ba187?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                },
+                {
+                    id: 6,
+                    name: "Breakfast Wave Sandwich",
+                    description: "Egg, cheese, and sausage on an English muffin",
+                    price: 4.49,
+                    category: "breakfast",
+                    image_url: "https://images.unsplash.com/photo-1551782450-17144efb9c50?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
+                }
+            ];
+            
+            const container = document.getElementById('menuContainer');
+            container.innerHTML = '';
+            
+            const filteredItems = currentCategory === 'all' 
+                ? sampleItems 
+                : sampleItems.filter(item => item.category === currentCategory);
+            
+            filteredItems.forEach(item => {
+                const itemElement = document.createElement('div');
+                itemElement.className = 'menu-item-card bg-white rounded-2xl overflow-hidden';
+                itemElement.innerHTML = `
+                    <div class="relative h-56 overflow-hidden">
+                        <img src="${item.image_url}" 
+                             alt="${item.name}" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        <div class="absolute top-4 right-4 category-badge">
+                            ${item.category}
+                        </div>
+                        <div class="absolute bottom-4 left-4 price-badge">
+                            $${item.price.toFixed(2)}
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">${item.name}</h3>
+                        <p class="text-gray-600 mb-6">${item.description}</p>
+                        <div class="text-center">
+                            <button class="bg-yellow-500 hover:bg-yellow-600 text-gray-900 font-bold px-8 py-3 rounded-full transition transform hover:scale-105 w-full">
+                                <i class="fas fa-info-circle mr-2"></i> View Details
+                            </button>
+                        </div>
+                    </div>
+                `;
+                container.appendChild(itemElement);
+            });
+        }
+
+        // Load testimonials
+        async function loadTestimonials() {
+            try {
+                const response = await fetch('/api/testimonials');
+                const testimonials = await response.json();
+                
+                const container = document.getElementById('testimonialsContainer');
+                container.innerHTML = '';
+                
+                testimonials.forEach(testimonial => {
+                    const testimonialElement = document.createElement('div');
+                    testimonialElement.className = 'testimonial-card p-6 rounded-2xl';
+                    testimonialElement.innerHTML = `
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-yellow-500 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">${testimonial.customer_name}</h4>
+                                <div class="rating-stars">
+                                    ${Array(testimonial.rating).fill('<i class="fas fa-star"></i>').join('')}
+                                    ${Array(5 - testimonial.rating).fill('<i class="far fa-star"></i>').join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">"${testimonial.comment}"</p>
+                        <div class="text-right text-sm text-gray-400">
+                            ${new Date(testimonial.created_at).toLocaleDateString('en-US', { 
+                                year: 'numeric', 
+                                month: 'short', 
+                                day: 'numeric' 
+                            })}
+                        </div>
+                    `;
+                    container.appendChild(testimonialElement);
+                });
+                
+                // If no testimonials, show sample
+                if (testimonials.length === 0) {
+                    container.innerHTML = `
+                        <div class="col-span-3 text-center py-8">
+                            <p class="text-gray-500">Be the first to review Wavy Way!</p>
+                        </div>
+                    `;
+                }
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                // Show sample testimonials
+                const container = document.getElementById('testimonialsContainer');
+                container.innerHTML = `
+                    <div class="testimonial-card p-6 rounded-2xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-yellow-500 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Alex Johnson</h4>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">"Best burgers in town! The Wavy Classic is absolutely amazing. Service is super fast too!"</p>
+                        <div class="text-right text-sm text-gray-400">2 days ago</div>
+                    </div>
+                    <div class="testimonial-card p-6 rounded-2xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to yellow-500 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">Maria Garcia</h4>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">"The chocolate shake is to die for! My kids love the Wave Fries. Definitely our new favorite spot!"</p>
+                        <div class="text-right text-sm text-gray-400">1 week ago</div>
+                    </div>
+                    <div class="testimonial-card p-6 rounded-2xl">
+                        <div class="flex items-center mb-4">
+                            <div class="w-12 h-12 bg-gradient-to-br from-red-500 to-yellow-500 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg">David Chen</h4>
+                                <div class="rating-stars">
+                                    <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 italic mb-4">"Great value for money! The family deals are unbeatable. Only wish they had more vegetarian options."</p>
+                        <div class="text-right text-sm text-gray-400">3 weeks ago</div>
+                    </div>
+                `;
+            }
+        }
+
+        // Submit testimonial form
+        document.getElementById('testimonialForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const testimonial = {
+                customer_name: document.getElementById('customerName').value,
+                comment: document.getElementById('comment').value,
+                rating: parseInt(document.getElementById('rating').value)
+            };
+            
+            try {
+                const response = await fetch('/api/testimonials', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(testimonial)
+                });
+                
+                if (response.ok) {
+                    alert('Thanks for your wavy review! 🌊');
+                    document.getElementById('testimonialForm').reset();
+                    loadTestimonials();
+                } else {
+                    alert('Error submitting review. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error submitting testimonial:', error);
+                alert('Error submitting review. Please try again.');
+            }
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                    
+                    // Close mobile menu if open
+                    const mobileMenu = document.getElementById('mobileMenu');
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Add hover effects to category badges
+        document.addEventListener('mouseover', function(e) {
+            if (e.target.classList.contains('category-badge')) {
+                e.target.style.transform = 'scale(1.1)';
+                e.target.style.transition = 'transform 0.2s ease';
+            }
+        });
+
+        document.addEventListener('mouseout', function(e) {
+            if (e.target.classList.contains('category-badge')) {
+                e.target.style.transform = 'scale(1)';
+            }
+        });
+
+        // Initialize on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Wavy Way loaded! 🌊');
+            loadMenuItems();
+            loadTestimonials();
+            
+            // Add some fun animations
+            setTimeout(() => {
+                const logo = document.querySelector('.logo-animation');
+                if (logo) {
+                    logo.style.animation = 'wave 3s ease-in-out infinite';
+                }
+            }, 1000);
+        });
+
+        // Add button click functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('button') && e.target.closest('button').textContent.includes('View Details')) {
+                const itemName = e.target.closest('.menu-item-card').querySelector('h3').textContent;
+                showNotification(`More details coming soon for: ${itemName} 🍔`);
+            }
+            
+            if (e.target.closest('button') && e.target.closest('button').textContent.includes('GRAB THIS DEAL')) {
+                showNotification('Deal added! Visit our location to redeem this special offer! 🎉');
+            }
+        });
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-gradient-to-r from-green-500 to-green-600 text-white px-6 py-3 rounded-lg shadow-lg z-50 transform translate-x-full opacity-0 transition-all duration-300';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-full', 'opacity-0');
+                notification.classList.add('translate-x-0', 'opacity-100');
+            }, 10);
+            
+            setTimeout(() => {
+                notification.classList.remove('translate-x-0', 'opacity-100');
+                notification.classList.add('translate-x-full', 'opacity-0');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
