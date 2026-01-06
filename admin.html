@@ -3,114 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel | Leylandi Land</title>
+    <title>Admin Panel | Wavy Way</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        body {
-            background-color: #f8fafc;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        .sidebar {
-            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
-            min-height: 100vh;
-        }
-        
-        .nav-item.active {
-            background-color: rgba(255, 255, 255, 0.1);
-            border-left: 4px solid #60a5fa;
-        }
-        
-        .nav-item:hover {
-            background-color: rgba(255, 255, 255, 0.05);
-        }
-        
-        .stat-card {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease;
-        }
-        
-        .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
-        }
-        
-        .btn-primary {
-            background-color: #3b82f6;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            transition: background-color 0.3s ease;
-        }
-        
-        .btn-primary:hover {
-            background-color: #2563eb;
-        }
-        
-        .btn-danger {
-            background-color: #ef4444;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
-        }
-        
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-        
-        .form-input {
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            padding: 10px;
-            width: 100%;
-            transition: border-color 0.3s ease;
-        }
-        
-        .form-input:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-        }
-        
-        .modal-overlay {
-            background-color: rgba(0, 0, 0, 0.5);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-        }
-        
-        .modal-content {
-            background-color: white;
-            border-radius: 12px;
-            max-width: 500px;
-            width: 90%;
-            max-height: 90vh;
-            overflow-y: auto;
-        }
-        
-        .table-container {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-        }
-        
-        .table-row:hover {
-            background-color: #f9fafb;
-        }
+        body { background-color: #f8fafc; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .sidebar { background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%); min-height: 100vh; }
+        .nav-item.active { background-color: rgba(255, 255, 255, 0.1); border-left: 4px solid #60a5fa; }
+        .stat-card { background: white; border-radius: 10px; padding: 20px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); }
+        .btn-primary { background-color: #3b82f6; color: white; padding: 10px 20px; border-radius: 8px; font-weight: 600; }
+        .btn-danger { background-color: #ef4444; color: white; padding: 8px 16px; border-radius: 6px; font-weight: 500; }
+        .modal-overlay { background-color: rgba(0, 0, 0, 0.5); position: fixed; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; z-index: 1000; }
+        .modal-content { background-color: white; border-radius: 12px; max-width: 500px; width: 90%; max-height: 90vh; overflow-y: auto; }
     </style>
 </head>
 <body>
@@ -118,51 +22,41 @@
     <div id="loginScreen" class="min-h-screen flex items-center justify-center bg-gray-50 p-4">
         <div class="max-w-md w-full space-y-8 bg-white p-8 rounded-2xl shadow-lg">
             <div class="text-center">
-                <div class="flex justify-center mb-6">
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAABcCAMAAADUMSJqAAAAtFBMVEX///8Aod4Ao9/8/fr3+vPh6tLj69X2+/7E4/Xn7try9uva5cbQ3rfq9fvo793t8+O90ZmqxHvV4r+jwG20y4qm1vBJs+TB06LP6vcAcLuu2vIAnt6FyOu23fMAfMXe7/mZuVqPs0s3ruPK3O5eveeTzu3K2aupx+MAZLaOtdpwo9FKjsgvhMN2yOyVvN7V5/MSjcovvOVVxekAl9tmrdg0odWK1O9ZntJLqdi70eh8veIks+Sjl6uZAAADNElEQVRoge1Va3eiMBAdCCEQEkB8AaJ0EbC1Wh/VstX//792Qrd7znatdrv2y57c41GckJth7p0BQENDQ0NDQ0NDQ+NrQVzyVdSWRToWsb6EO+i6pEu8zvXZOQcShhCRnrg6N1BMmN5w8G8CCIbX5eYQhQARVR/Ssa/KbXVDyrlncQho4F+5MCQIv4kAq4LHUAK+uK6ohPhBGAZCoBl73d5n7Z4X/VPBMYDfdcMwQtNQSxxy+s5CWRR/BiujgJp7YijAV3Ly8+Sz27uTcaco5IlwYaZe1+IW8C4LUeeCGeeT+3cST0+Fx8YAdcRWGnoQeMF5brZITtYlPpanNxQGAxD1z3/kbF1WyeJkfHmMT2/IjJiDGIIbCqC9TniO/CF5eLmYPqzwW1bIiamxNvE8b5dYyV5vd9LUGNeh7VK0ihiGnn+OfJG8bJwv1msUsMSEnc0Y0qMD0DdGscNUsgcs9iFXZjFKA81IGHBRXzJ5nszb32ayy9dIV2QA263EQxiM0RnxowPSMPtQmiMH1TScfITPVlbEEx6/0J93L3LOJg3MdsD2aL908wT58QlkUcQwQK9n5gAGppkBM/GUdMSAqeztTqc+T754kXMxkVOsSrrPQG63MR4QQ4Yd6hgVsMKMB+OBKaEyUYjlAJ931LbAhbI8T1o5V8l81mBxd/scss0WGTatpGxg5nhAmTm5Knth5Jg0ilG9Y9Pf0UzaFJ6TBq2yYvvv4GQbHCmbJVYmhWxpqqqUKSo5BjkqlSp4f+F8gDvHUqP92Or2GU05levDql8dc5CbFMnjvlMWquFR5AxllI9jYCP0jDQ/kvhuMn9oktsGjTibY+4HrLkyONsoR2DqS5MByqmmIWZbVFINRaje6a83mS+SyX3ToBunz63dJfSPavuT2q56Cavm/JpfrDp8iPb1dvY28L18G/ocsKhhI/g4lV/b+LB3wKUksqjludzDa7DB49T9e3JsApz6ovZARG239ffouHrIe2ToU67eCsA7Vs8KP0EufBJ5YAcUak9i4x3WO4za1KqtyA4sKnCZurYN4uIL7TzkvFmvq3/jOAOWfxm1hoaGhoaGhoaGhsb/hB9nwz+g5tp23QAAAABJRU5ErkJggg==" 
-                         alt="Logo" class="h-16">
-                </div>
-                <h2 class="text-3xl font-bold text-gray-900">Admin Panel</h2>
-                <p class="text-gray-600 mt-2">Sign in to manage Leylandi Land</p>
+                <h2 class="text-3xl font-bold text-gray-900">Admin Login</h2>
+                <p class="text-gray-600 mt-2">Wavy Way Restaurant Admin Panel</p>
             </div>
             
             <form id="loginForm" class="mt-8 space-y-6">
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Username</label>
-                        <input type="text" id="username" required 
-                               class="form-input" placeholder="Enter username">
+                        <input type="text" id="username" required class="w-full p-3 border rounded-lg" placeholder="admin">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
-                        <input type="password" id="password" required 
-                               class="form-input" placeholder="Enter password">
+                        <input type="password" id="password" required class="w-full p-3 border rounded-lg" placeholder="admin123">
                     </div>
                 </div>
                 
-                <div>
-                    <button type="submit" class="w-full btn-primary py-3">
-                        Sign In
-                    </button>
-                </div>
+                <button type="submit" class="w-full bg-red-600 text-white p-3 rounded-lg font-bold hover:bg-red-700">
+                    Sign In
+                </button>
                 
                 <div class="text-center text-sm text-gray-500">
-                    <p>Default credentials: admin / admin123</p>
+                    <p>Default: admin / admin123</p>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- Main Admin Dashboard (hidden by default) -->
+    <!-- Admin Dashboard -->
     <div id="adminDashboard" class="hidden">
         <div class="flex">
             <!-- Sidebar -->
             <div class="sidebar w-64 text-white">
                 <div class="p-6">
                     <div class="flex items-center space-x-3 mb-8">
-                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFwAAABcCAMAAADUMSJqAAAAtFBMVEX///8Aod4Ao9/8/fr3+vPh6tLj69X2+/7E4/Xn7try9uva5cbQ3rfq9fvo793t8+O90ZmqxHvV4r+jwG20y4qm1vBJs+TB06LP6vcAcLuu2vIAnt6FyOu23fMAfMXe7/mZuVqPs0s3ruPK3O5eveeTzu3K2aupx+MAZLaOtdpwo9FKjsgvhMN2yOyVvN7V5/MSjcovvOVVxekAl9tmrdg0odWK1O9ZntJLqdi70eh8veIks+Sjl6uZAAADNElEQVRoge1Va3eiMBAdCCEQEkB8AaJ0EbC1Wh/VstX//792Qrd7znatdrv2y57c41GckJth7p0BQENDQ0NDQ0NDQ+NrQVzyVdSWRToWsb6EO+i6pEu8zvXZOQcShhCRnrg6N1BMmN5w8G8CCIbX5eYQhQARVR/Ssa/KbXVDyrlncQho4F+5MCQIv4kAq4LHUAK+uK6ohPhBGAZCoBl73d5n7Z4X/VPBMYDfdcMwQtNQSxxy+s5CWRR/BiujgJp7YijAV3Ly8+Sz27uTcaco5IlwYaZe1+IW8C4LUeeCGeeT+3cST0+Fx8YAdcRWGnoQeMF5brZITtYlPpanNxQGAxD1z3/kbF1WyeJkfHmMT2/IjJiDGIIbCqC9TniO/CF5eLmYPqzwW1bIiamxNvE8b5dYyV5vd9LUGNeh7VK0ihiGnn+OfJG8bJwv1msUsMSEnc0Y0qMD0DdGscNUsgcs9iFXZjFKA81IGHBRXzJ5nszb32ayy9dIV2QA263EQxiM0RnxowPSMPtQmiMH1TScfITPVlbEEx6/0J93L3LOJg3MdsD2aL908wT58QlkUcQwQK9n5gAGppkBM/GUdMSAqeztTqc+T754kXMxkVOsSrrPQG63MR4QQ4Yd6hgVsMKMB+OBKaEyUYjlAJ931LbAhbI8T1o5V8l81mBxd/scss0WGTatpGxg5nhAmTm5Knth5Jg0ilG9Y9Pf0UzaFJ6TBq2yYvvv4GQbHCmbJVYmhWxpqqqUKSo5BjkqlSp4f+F8gDvHUqP92Or2GU05levDql8dc5CbFMnjvlMWquFR5AxllI9jYCP0jDQ/kvhuMn9oktsGjTibY+4HrLkyONsoR2DqS5MByqmmIWZbVFINRaje6a83mS+SyX3ToBunz63dJfSPavuT2q56Cavm/JpfrDp8iPb1dvY28L18G/ocsKhhI/g4lV/b+LB3wKUksqjludzDa7DB49T9e3JsApz6ovZARG239ffouHrIe2ToU67eCsA7Vs8KP0EufBJ5YAcUak9i4x3WO4za1KqtyA4sKnCZurYN4uIL7TzkvFmvq3/jOAOWfxm1hoaGhoaGhoaGhsb/hB9nwz+g5tp23QAAAABJRU5ErkJggg==" 
-                             alt="Logo" class="h-10">
-                        <span class="text-xl font-bold">Leylandi Land</span>
+                        <span class="text-xl font-bold">Wavy Way Admin</span>
                     </div>
                     
                     <nav class="space-y-2">
@@ -178,10 +72,6 @@
                             <i class="fas fa-star w-6"></i>
                             <span>Testimonials</span>
                         </a>
-                        <a href="#" data-section="settings" class="nav-item flex items-center space-x-3 p-3 rounded-lg transition">
-                            <i class="fas fa-cog w-6"></i>
-                            <span>Settings</span>
-                        </a>
                         <a href="/" class="nav-item flex items-center space-x-3 p-3 rounded-lg transition">
                             <i class="fas fa-external-link-alt w-6"></i>
                             <span>View Website</span>
@@ -196,90 +86,6 @@
             
             <!-- Main Content -->
             <div class="flex-1 p-6">
-                <!-- Dashboard Section -->
-                <div id="dashboardSection">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-8">Dashboard Overview</h1>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                        <div class="stat-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm">Total Menu Items</p>
-                                    <h3 id="totalItems" class="text-3xl font-bold mt-2">0</h3>
-                                </div>
-                                <div class="p-3 bg-blue-100 rounded-lg">
-                                    <i class="fas fa-utensils text-2xl text-blue-600"></i>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm">Total Testimonials</p>
-                                    <h3 id="totalTestimonials" class="text-3xl font-bold mt-2">0</h3>
-                                </div>
-                                <div class="p-3 bg-green-100 rounded-lg">
-                                    <i class="fas fa-star text-2xl text-green-600"></i>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="stat-card">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <p class="text-gray-500 text-sm">Categories</p>
-                                    <h3 id="totalCategories" class="text-3xl font-bold mt-2">0</h3>
-                                </div>
-                                <div class="p-3 bg-purple-100 rounded-lg">
-                                    <i class="fas fa-tags text-2xl text-purple-600"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="bg-white rounded-xl shadow-md p-6 mb-8">
-                        <h2 class="text-xl font-bold mb-4">Recent Activity</h2>
-                        <div id="recentActivity" class="space-y-4">
-                            <!-- Activity items will be loaded here -->
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                        <div class="bg-white rounded-xl shadow-md p-6">
-                            <h2 class="text-xl font-bold mb-4">Quick Actions</h2>
-                            <div class="space-y-4">
-                                <button onclick="showAddItemModal()" class="w-full text-left p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <h3 class="font-semibold">Add New Menu Item</h3>
-                                            <p class="text-sm text-gray-500">Create a new dish or drink</p>
-                                        </div>
-                                        <i class="fas fa-plus text-blue-600"></i>
-                                    </div>
-                                </button>
-                                
-                                <button onclick="showTestimonialModal()" class="w-full text-left p-4 border border-gray-200 rounded-lg hover:bg-gray-50 transition">
-                                    <div class="flex items-center justify-between">
-                                        <div>
-                                            <h3 class="font-semibold">Add Testimonial</h3>
-                                            <p class="text-sm text-gray-500">Add a customer review</p>
-                                        </div>
-                                        <i class="fas fa-star text-green-600"></i>
-                                    </div>
-                                </button>
-                            </div>
-                        </div>
-                        
-                        <div class="bg-white rounded-xl shadow-md p-6">
-                            <h2 class="text-xl font-bold mb-4">Recent Testimonials</h2>
-                            <div id="recentTestimonials" class="space-y-4">
-                                <!-- Recent testimonials will be loaded here -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Menu Items Section -->
                 <div id="menuSection" class="hidden">
                     <div class="flex justify-between items-center mb-8">
@@ -289,11 +95,11 @@
                         </button>
                     </div>
                     
-                    <div class="table-container">
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
                         <table class="w-full">
                             <thead class="bg-gray-50">
                                 <tr>
-                                    <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Image</th>
+                                    <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">ID</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Name</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Category</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Price</th>
@@ -311,19 +117,19 @@
                 <div id="testimonialsSection" class="hidden">
                     <div class="flex justify-between items-center mb-8">
                         <h1 class="text-3xl font-bold text-gray-900">Testimonials Management</h1>
-                        <button onclick="showTestimonialModal()" class="btn-primary">
+                        <button onclick="showAddTestimonialModal()" class="btn-primary">
                             <i class="fas fa-plus mr-2"></i> Add Testimonial
                         </button>
                     </div>
                     
-                    <div class="table-container">
+                    <div class="bg-white rounded-xl shadow-md overflow-hidden">
                         <table class="w-full">
                             <thead class="bg-gray-50">
                                 <tr>
+                                    <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">ID</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Customer</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Comment</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Rating</th>
-                                    <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Date</th>
                                     <th class="py-3 px-6 text-left text-sm font-semibold text-gray-700">Actions</th>
                                 </tr>
                             </thead>
@@ -331,48 +137,6 @@
                                 <!-- Testimonials will be loaded here -->
                             </tbody>
                         </table>
-                    </div>
-                </div>
-                
-                <!-- Settings Section -->
-                <div id="settingsSection" class="hidden">
-                    <h1 class="text-3xl font-bold text-gray-900 mb-8">Settings</h1>
-                    
-                    <div class="bg-white rounded-xl shadow-md p-6 max-w-2xl">
-                        <h2 class="text-xl font-bold mb-6">Restaurant Information</h2>
-                        
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Restaurant Name</label>
-                                <input type="text" class="form-input" value="Leylandi Land" readonly>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Contact Email</label>
-                                <input type="email" class="form-input" value="info@leylandiland.com">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Phone Number</label>
-                                <input type="tel" class="form-input" value="+961 1 234 567">
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Address</label>
-                                <textarea class="form-input" rows="3">Forest Street, Green District, Lebanon</textarea>
-                            </div>
-                            
-                            <div>
-                                <label class="block text-sm font-medium text-gray-700 mb-2">Opening Hours</label>
-                                <textarea class="form-input" rows="4">Monday - Friday: 7:00 AM - 10:00 PM
-Saturday: 8:00 AM - 11:00 PM
-Sunday: 8:00 AM - 9:00 PM</textarea>
-                            </div>
-                            
-                            <button class="btn-primary">
-                                Save Changes
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -390,44 +154,37 @@ Sunday: 8:00 AM - 9:00 PM</textarea>
                     </button>
                 </div>
                 
-                <form id="itemForm" enctype="multipart/form-data">
+                <form id="itemForm">
                     <input type="hidden" id="itemId">
                     
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Item Name</label>
-                            <input type="text" id="itemName" required class="form-input" placeholder="Enter item name">
+                            <input type="text" id="itemName" required class="w-full p-3 border rounded-lg" placeholder="Enter item name">
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea id="itemDescription" rows="3" class="form-input" placeholder="Enter item description"></textarea>
+                            <textarea id="itemDescription" rows="3" class="w-full p-3 border rounded-lg" placeholder="Enter item description"></textarea>
                         </div>
                         
                         <div class="grid grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Price ($)</label>
-                                <input type="number" id="itemPrice" required step="0.01" min="0" class="form-input" placeholder="0.00">
+                                <input type="number" id="itemPrice" required step="0.01" min="0" class="w-full p-3 border rounded-lg" placeholder="0.00">
                             </div>
                             
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
-                                <select id="itemCategory" required class="form-input">
+                                <select id="itemCategory" required class="w-full p-3 border rounded-lg">
                                     <option value="">Select Category</option>
                                     <option value="breakfast">Breakfast</option>
                                     <option value="lunch">Lunch</option>
+                                    <option value="dinner">Dinner</option>
                                     <option value="drinks">Drinks</option>
                                     <option value="desserts">Desserts</option>
+                                    <option value="snacks">Snacks</option>
                                 </select>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Image</label>
-                            <input type="file" id="itemImage" accept="image/*" class="form-input">
-                            <p class="text-sm text-gray-500 mt-1">Optional: Upload an image for this item</p>
-                            <div id="imagePreview" class="mt-2 hidden">
-                                <img id="previewImage" class="max-w-xs rounded-lg">
                             </div>
                         </div>
                     </div>
@@ -445,7 +202,7 @@ Sunday: 8:00 AM - 9:00 PM</textarea>
         </div>
     </div>
     
-    <!-- Testimonial Modal -->
+    <!-- Add Testimonial Modal -->
     <div id="testimonialModal" class="modal-overlay hidden">
         <div class="modal-content">
             <div class="p-6">
@@ -456,16 +213,16 @@ Sunday: 8:00 AM - 9:00 PM</textarea>
                     </button>
                 </div>
                 
-                <form id="adminTestimonialForm">
+                <form id="testimonialForm">
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Customer Name</label>
-                            <input type="text" id="adminCustomerName" required class="form-input" placeholder="Enter customer name">
+                            <input type="text" id="customerName" required class="w-full p-3 border rounded-lg" placeholder="Enter customer name">
                         </div>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Rating</label>
-                            <select id="adminRating" class="form-input">
+                            <select id="rating" class="w-full p-3 border rounded-lg">
                                 <option value="5">5 Stars</option>
                                 <option value="4">4 Stars</option>
                                 <option value="3">3 Stars</option>
@@ -476,7 +233,7 @@ Sunday: 8:00 AM - 9:00 PM</textarea>
                         
                         <div>
                             <label class="block text-sm font-medium text-gray-700 mb-2">Comment</label>
-                            <textarea id="adminComment" required rows="4" class="form-input" placeholder="Enter customer review"></textarea>
+                            <textarea id="comment" required rows="4" class="w-full p-3 border rounded-lg" placeholder="Enter customer review"></textarea>
                         </div>
                     </div>
                     
@@ -494,452 +251,332 @@ Sunday: 8:00 AM - 9:00 PM</textarea>
     </div>
 
     <script>
-    // API base URL template literal - make sure this matches your main site
-    const base = `https://api.auraelixir-lb.xyz`;
-
-    let currentUser = null;
-    let editingItemId = null;
-
-    // Login functionality
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
+        // API Configuration
+        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
+            ? 'http://localhost:3000'
+            : 'https://api.auraelixir-lb.xyz';
         
-        const credentials = {
-            username: document.getElementById('username').value,
-            password: document.getElementById('password').value
-        };
-        
-        try {
-            const response = await fetch(`${base}/api/admin/login`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(credentials)
-            });
-            
-            const data = await response.json();
-            
-            if (data.success) {
-                currentUser = data.user;
-                localStorage.setItem('adminToken', data.token);
-                showAdminDashboard();
-                loadDashboardData();
-            } else {
-                alert('Invalid credentials. Please try again.');
-            }
-        } catch (error) {
-            console.error('Login error:', error);
-            alert('Login failed. Please try again.');
-        }
-    });
+        let currentUser = null;
+        let editingItemId = null;
+        let editingTestimonialId = null;
 
-    // Logout
-    document.getElementById('logoutBtn').addEventListener('click', function() {
-        localStorage.removeItem('adminToken');
-        currentUser = null;
-        showLoginScreen();
-    });
-
-    // Navigation between sections
-    document.querySelectorAll('.nav-item').forEach(item => {
-        item.addEventListener('click', function(e) {
+        // Login functionality
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Remove active class from all nav items
-            document.querySelectorAll('.nav-item').forEach(nav => {
-                nav.classList.remove('active');
-            });
-            
-            // Add active class to clicked item
-            this.classList.add('active');
-            
-            // Hide all sections
-            document.querySelectorAll('[id$="Section"]').forEach(section => {
-                section.classList.add('hidden');
-            });
-            
-            // Show selected section
-            const sectionId = this.dataset.section + 'Section';
-            document.getElementById(sectionId).classList.remove('hidden');
-        });
-    });
-
-    // Show/Hide screens
-    function showLoginScreen() {
-        document.getElementById('loginScreen').classList.remove('hidden');
-        document.getElementById('adminDashboard').classList.add('hidden');
-    }
-
-    function showAdminDashboard() {
-        document.getElementById('loginScreen').classList.add('hidden');
-        document.getElementById('adminDashboard').classList.remove('hidden');
-        
-        // Set first nav item as active
-        document.querySelector('.nav-item').click();
-    }
-
-    // Modal functions
-    function showAddItemModal() {
-        document.getElementById('modalTitle').textContent = 'Add Menu Item';
-        document.getElementById('itemId').value = '';
-        document.getElementById('itemName').value = '';
-        document.getElementById('itemDescription').value = '';
-        document.getElementById('itemPrice').value = '';
-        document.getElementById('itemCategory').value = '';
-        document.getElementById('itemImage').value = '';
-        document.getElementById('imagePreview').classList.add('hidden');
-        
-        editingItemId = null;
-        document.getElementById('itemModal').classList.remove('hidden');
-    }
-
-    function showEditItemModal(item) {
-        document.getElementById('modalTitle').textContent = 'Edit Menu Item';
-        document.getElementById('itemId').value = item.id;
-        document.getElementById('itemName').value = item.name;
-        document.getElementById('itemDescription').value = item.description || '';
-        document.getElementById('itemPrice').value = item.price;
-        document.getElementById('itemCategory').value = item.category;
-        
-        if (item.image_url) {
-            document.getElementById('previewImage').src = item.image_url;
-            document.getElementById('imagePreview').classList.remove('hidden');
-        }
-        
-        editingItemId = item.id;
-        document.getElementById('itemModal').classList.remove('hidden');
-    }
-
-    function closeModal() {
-        document.getElementById('itemModal').classList.add('hidden');
-    }
-
-    function showTestimonialModal() {
-        document.getElementById('adminCustomerName').value = '';
-        document.getElementById('adminRating').value = '5';
-        document.getElementById('adminComment').value = '';
-        document.getElementById('testimonialModal').classList.remove('hidden');
-    }
-
-    function closeTestimonialModal() {
-        document.getElementById('testimonialModal').classList.add('hidden');
-    }
-
-    // Image preview
-    document.getElementById('itemImage').addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('previewImage').src = e.target.result;
-                document.getElementById('imagePreview').classList.remove('hidden');
+            const credentials = {
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
             };
-            reader.readAsDataURL(file);
-        }
-    });
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/admin/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(credentials)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    currentUser = data.user;
+                    localStorage.setItem('adminToken', data.token);
+                    showAdminDashboard();
+                    loadMenuItems();
+                    loadTestimonials();
+                } else {
+                    alert('Invalid credentials. Please try again.');
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                alert('Login failed. Please try again.');
+            }
+        });
 
-    // Load dashboard data
-    async function loadDashboardData() {
-        try {
-            const [menuResponse, testimonialsResponse] = await Promise.all([
-                fetch(`${base}/api/menu`),
-                fetch(`${base}/api/testimonials`)
-            ]);
-            
-            const menuItems = await menuResponse.json();
-            const testimonials = await testimonialsResponse.json();
-            
-            // Update statistics
-            document.getElementById('totalItems').textContent = menuItems.length;
-            document.getElementById('totalTestimonials').textContent = testimonials.length;
-            
-            // Count unique categories
-            const categories = [...new Set(menuItems.map(item => item.category))];
-            document.getElementById('totalCategories').textContent = categories.length;
-            
-            // Load menu items table
-            loadMenuItemsTable(menuItems);
-            
-            // Load testimonials table
-            loadTestimonialsTable(testimonials);
-            
-            // Load recent activity
-            loadRecentActivity(menuItems, testimonials);
-            
-            // Load recent testimonials
-            loadRecentTestimonials(testimonials);
-            
-        } catch (error) {
-            console.error('Error loading dashboard data:', error);
-        }
-    }
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            localStorage.removeItem('adminToken');
+            currentUser = null;
+            showLoginScreen();
+        });
 
-    // Load menu items table
-    function loadMenuItemsTable(menuItems) {
-        const tableBody = document.getElementById('menuTableBody');
-        tableBody.innerHTML = '';
-        
-        menuItems.forEach(item => {
-            const row = document.createElement('tr');
-            row.className = 'table-row border-t';
-            row.innerHTML = `
-                <td class="py-4 px-6">
-                    ${item.image_url 
-                        ? `<img src="${item.image_url}" alt="${item.name}" class="w-16 h-16 object-cover rounded">`
-                        : `<div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
-                             <i class="fas fa-utensils text-gray-400"></i>
-                           </div>`
+        // Navigation
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function(e) {
+                if (this.dataset.section) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all nav items
+                    document.querySelectorAll('.nav-item').forEach(nav => {
+                        nav.classList.remove('active');
+                    });
+                    
+                    // Add active class to clicked item
+                    this.classList.add('active');
+                    
+                    // Hide all sections
+                    document.querySelectorAll('[id$="Section"]').forEach(section => {
+                        section.classList.add('hidden');
+                    });
+                    
+                    // Show selected section
+                    const sectionId = this.dataset.section + 'Section';
+                    document.getElementById(sectionId).classList.remove('hidden');
+                    
+                    // Load data for section
+                    if (sectionId === 'menuSection') {
+                        loadMenuItems();
+                    } else if (sectionId === 'testimonialsSection') {
+                        loadTestimonials();
                     }
-                </td>
-                <td class="py-4 px-6">
-                    <div>
-                        <div class="font-semibold">${item.name}</div>
-                        <div class="text-sm text-gray-500">${item.description || 'No description'}</div>
-                    </div>
-                </td>
-                <td class="py-4 px-6">
-                    <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
-                        ${item.category}
-                    </span>
-                </td>
-                <td class="py-4 px-6 font-semibold">$${item.price.toFixed(2)}</td>
-                <td class="py-4 px-6">
-                    <div class="flex space-x-2">
-                        <button onclick="showEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
-                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
-                            Edit
-                        </button>
-                        <button onclick="deleteMenuItem(${item.id})" 
-                                class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
-                            Delete
-                        </button>
-                    </div>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    // Load testimonials table
-    function loadTestimonialsTable(testimonials) {
-        const tableBody = document.getElementById('testimonialsTableBody');
-        tableBody.innerHTML = '';
-        
-        testimonials.forEach(testimonial => {
-            const row = document.createElement('tr');
-            row.className = 'table-row border-t';
-            row.innerHTML = `
-                <td class="py-4 px-6 font-semibold">${testimonial.customer_name}</td>
-                <td class="py-4 px-6 text-gray-600">${testimonial.comment}</td>
-                <td class="py-4 px-6">
-                    <div class="text-yellow-500">
-                        ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}
-                    </div>
-                </td>
-                <td class="py-4 px-6 text-sm text-gray-500">
-                    ${new Date(testimonial.created_at).toLocaleDateString()}
-                </td>
-                <td class="py-4 px-6">
-                    <button onclick="deleteTestimonial(${testimonial.id})" 
-                            class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
-                        Delete
-                    </button>
-                </td>
-            `;
-            tableBody.appendChild(row);
-        });
-    }
-
-    // Load recent activity
-    function loadRecentActivity(menuItems, testimonials) {
-        const activityContainer = document.getElementById('recentActivity');
-        activityContainer.innerHTML = '';
-        
-        // Combine and sort by date (most recent first)
-        const activities = [
-            ...menuItems.slice(0, 3).map(item => ({
-                type: 'menu',
-                text: `Menu item added: "${item.name}"`,
-                date: item.created_at
-            })),
-            ...testimonials.slice(0, 3).map(testimonial => ({
-                type: 'testimonial',
-                text: `New review from ${testimonial.customer_name}`,
-                date: testimonial.created_at
-            }))
-        ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
-        
-        activities.forEach(activity => {
-            const activityElement = document.createElement('div');
-            activityElement.className = 'flex items-center p-3 bg-gray-50 rounded-lg';
-            activityElement.innerHTML = `
-                <div class="mr-4">
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center ${
-                        activity.type === 'menu' ? 'bg-blue-100' : 'bg-green-100'
-                    }">
-                        <i class="fas ${
-                            activity.type === 'menu' ? 'fa-utensils text-blue-600' : 'fa-star text-green-600'
-                        }"></i>
-                    </div>
-                </div>
-                <div class="flex-1">
-                    <div class="font-medium">${activity.text}</div>
-                    <div class="text-sm text-gray-500">
-                        ${new Date(activity.date).toLocaleString()}
-                    </div>
-                </div>
-            `;
-            activityContainer.appendChild(activityElement);
-        });
-    }
-
-    // Load recent testimonials
-    function loadRecentTestimonials(testimonials) {
-        const container = document.getElementById('recentTestimonials');
-        container.innerHTML = '';
-        
-        testimonials.slice(0, 3).forEach(testimonial => {
-            const element = document.createElement('div');
-            element.className = 'p-4 border border-gray-200 rounded-lg';
-            element.innerHTML = `
-                <div class="flex justify-between items-start mb-2">
-                    <div class="font-semibold">${testimonial.customer_name}</div>
-                    <div class="text-yellow-500">
-                        ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}
-                    </div>
-                </div>
-                <p class="text-gray-600 text-sm mb-2">"${testimonial.comment}"</p>
-                <div class="text-xs text-gray-400">
-                    ${new Date(testimonial.created_at).toLocaleDateString()}
-                </div>
-            `;
-            container.appendChild(element);
-        });
-    }
-
-    // Save menu item
-    document.getElementById('itemForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const formData = new FormData();
-        formData.append('name', document.getElementById('itemName').value);
-        formData.append('description', document.getElementById('itemDescription').value);
-        formData.append('price', document.getElementById('itemPrice').value);
-        formData.append('category', document.getElementById('itemCategory').value);
-        
-        const imageFile = document.getElementById('itemImage').files[0];
-        if (imageFile) {
-            formData.append('image', imageFile);
-        }
-        
-        const itemId = document.getElementById('itemId').value;
-        const url = itemId ? `${base}/api/menu/${itemId}` : `${base}/api/menu`;
-        const method = itemId ? 'PUT' : 'POST';
-        
-        try {
-            const response = await fetch(url, {
-                method: method,
-                body: formData
+                }
             });
+        });
+
+        // Show/Hide screens
+        function showLoginScreen() {
+            document.getElementById('loginScreen').classList.remove('hidden');
+            document.getElementById('adminDashboard').classList.add('hidden');
+        }
+
+        function showAdminDashboard() {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('adminDashboard').classList.remove('hidden');
             
-            if (response.ok) {
-                alert(itemId ? 'Item updated successfully!' : 'Item added successfully!');
-                closeModal();
-                loadDashboardData();
-            } else {
+            // Set menu section as active by default
+            document.querySelector('[data-section="menu"]').click();
+        }
+
+        // Modal functions
+        function showAddItemModal() {
+            document.getElementById('modalTitle').textContent = 'Add Menu Item';
+            document.getElementById('itemId').value = '';
+            document.getElementById('itemName').value = '';
+            document.getElementById('itemDescription').value = '';
+            document.getElementById('itemPrice').value = '';
+            document.getElementById('itemCategory').value = '';
+            
+            editingItemId = null;
+            document.getElementById('itemModal').classList.remove('hidden');
+        }
+
+        function showEditItemModal(item) {
+            document.getElementById('modalTitle').textContent = 'Edit Menu Item';
+            document.getElementById('itemId').value = item.id;
+            document.getElementById('itemName').value = item.name;
+            document.getElementById('itemDescription').value = item.description || '';
+            document.getElementById('itemPrice').value = item.price;
+            document.getElementById('itemCategory').value = item.category;
+            
+            editingItemId = item.id;
+            document.getElementById('itemModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('itemModal').classList.add('hidden');
+        }
+
+        function showAddTestimonialModal() {
+            document.getElementById('customerName').value = '';
+            document.getElementById('rating').value = '5';
+            document.getElementById('comment').value = '';
+            editingTestimonialId = null;
+            document.getElementById('testimonialModal').classList.remove('hidden');
+        }
+
+        function closeTestimonialModal() {
+            document.getElementById('testimonialModal').classList.add('hidden');
+        }
+
+        // Load menu items
+        async function loadMenuItems() {
+            try {
+                const response = await fetch(`${API_BASE}/api/menu`);
+                const items = await response.json();
+                const tableBody = document.getElementById('menuTableBody');
+                
+                tableBody.innerHTML = items.map(item => `
+                    <tr class="border-t">
+                        <td class="py-4 px-6">${item.id}</td>
+                        <td class="py-4 px-6">
+                            <div class="font-semibold">${item.name}</div>
+                            <div class="text-sm text-gray-500">${item.description || 'No description'}</div>
+                        </td>
+                        <td class="py-4 px-6">
+                            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
+                                ${item.category}
+                            </span>
+                        </td>
+                        <td class="py-4 px-6 font-semibold">$${item.price.toFixed(2)}</td>
+                        <td class="py-4 px-6">
+                            <div class="flex space-x-2">
+                                <button onclick="showEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
+                                        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
+                                    Edit
+                                </button>
+                                <button onclick="deleteMenuItem(${item.id})" 
+                                        class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                                    Delete
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading menu items:', error);
+                alert('Failed to load menu items');
+            }
+        }
+
+        // Load testimonials
+        async function loadTestimonials() {
+            try {
+                const response = await fetch(`${API_BASE}/api/testimonials`);
+                const testimonials = await response.json();
+                const tableBody = document.getElementById('testimonialsTableBody');
+                
+                tableBody.innerHTML = testimonials.map(testimonial => `
+                    <tr class="border-t">
+                        <td class="py-4 px-6">${testimonial.id}</td>
+                        <td class="py-4 px-6 font-semibold">${testimonial.customer_name}</td>
+                        <td class="py-4 px-6 text-gray-600">${testimonial.comment}</td>
+                        <td class="py-4 px-6">
+                            <div class="text-yellow-500">
+                                ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}
+                            </div>
+                        </td>
+                        <td class="py-4 px-6">
+                            <button onclick="deleteTestimonial(${testimonial.id})" 
+                                    class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            } catch (error) {
+                console.error('Error loading testimonials:', error);
+                alert('Failed to load testimonials');
+            }
+        }
+
+        // Save menu item
+        document.getElementById('itemForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const itemData = {
+                name: document.getElementById('itemName').value,
+                description: document.getElementById('itemDescription').value,
+                price: document.getElementById('itemPrice').value,
+                category: document.getElementById('itemCategory').value
+            };
+            
+            const itemId = document.getElementById('itemId').value;
+            const url = itemId ? `${API_BASE}/api/menu/${itemId}` : `${API_BASE}/api/menu`;
+            const method = itemId ? 'PUT' : 'POST';
+            
+            try {
+                const response = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(itemData)
+                });
+                
+                if (response.ok) {
+                    alert(itemId ? 'Item updated successfully!' : 'Item added successfully!');
+                    closeModal();
+                    loadMenuItems();
+                } else {
+                    alert('Error saving item. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error saving item:', error);
                 alert('Error saving item. Please try again.');
             }
-        } catch (error) {
-            console.error('Error saving item:', error);
-            alert('Error saving item. Please try again.');
-        }
-    });
+        });
 
-    // Delete menu item
-    async function deleteMenuItem(id) {
-        if (!confirm('Are you sure you want to delete this item?')) return;
-        
-        try {
-            const response = await fetch(`${base}/api/menu/${id}`, {
-                method: 'DELETE'
-            });
+        // Add testimonial
+        document.getElementById('testimonialForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
             
-            if (response.ok) {
-                alert('Item deleted successfully!');
-                loadDashboardData();
-            } else {
-                alert('Error deleting item. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error deleting item:', error);
-            alert('Error deleting item. Please try again.');
-        }
-    }
-
-    // Delete testimonial
-    async function deleteTestimonial(id) {
-        if (!confirm('Are you sure you want to delete this testimonial?')) return;
-        
-        try {
-            const response = await fetch(`${base}/api/testimonials/${id}`, {
-                method: 'DELETE'
-            });
+            const testimonialData = {
+                customer_name: document.getElementById('customerName').value,
+                comment: document.getElementById('comment').value,
+                rating: parseInt(document.getElementById('rating').value)
+            };
             
-            if (response.ok) {
-                alert('Testimonial deleted successfully!');
-                loadDashboardData();
-            } else {
-                alert('Error deleting testimonial. Please try again.');
-            }
-        } catch (error) {
-            console.error('Error deleting testimonial:', error);
-            alert('Error deleting testimonial. Please try again.');
-        }
-    }
-
-    // Add testimonial from admin
-    document.getElementById('adminTestimonialForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        
-        const testimonial = {
-            customer_name: document.getElementById('adminCustomerName').value,
-            comment: document.getElementById('adminComment').value,
-            rating: parseInt(document.getElementById('adminRating').value)
-        };
-        
-        try {
-            const response = await fetch(`${base}/api/testimonials`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(testimonial)
-            });
-            
-            if (response.ok) {
-                alert('Testimonial added successfully!');
-                closeTestimonialModal();
-                loadDashboardData();
-            } else {
+            try {
+                const response = await fetch(`${API_BASE}/api/testimonials`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(testimonialData)
+                });
+                
+                if (response.ok) {
+                    alert('Testimonial added successfully!');
+                    closeTestimonialModal();
+                    loadTestimonials();
+                } else {
+                    alert('Error adding testimonial. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error adding testimonial:', error);
                 alert('Error adding testimonial. Please try again.');
             }
-        } catch (error) {
-            console.error('Error adding testimonial:', error);
-            alert('Error adding testimonial. Please try again.');
-        }
-    });
+        });
 
-    // Check if user is already logged in
-    window.addEventListener('DOMContentLoaded', function() {
-        const token = localStorage.getItem('adminToken');
-        if (token) {
-            // In a real app, verify token with server
-            currentUser = { username: 'admin' };
-            showAdminDashboard();
-            loadDashboardData();
+        // Delete menu item
+        async function deleteMenuItem(id) {
+            if (!confirm('Are you sure you want to delete this menu item?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/menu/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    alert('Menu item deleted successfully!');
+                    loadMenuItems();
+                } else {
+                    alert('Error deleting item. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error deleting item:', error);
+                alert('Error deleting item. Please try again.');
+            }
         }
-    });
-</script>
+
+        // Delete testimonial
+        async function deleteTestimonial(id) {
+            if (!confirm('Are you sure you want to delete this testimonial?')) return;
+            
+            try {
+                const response = await fetch(`${API_BASE}/api/testimonials/${id}`, {
+                    method: 'DELETE'
+                });
+                
+                if (response.ok) {
+                    alert('Testimonial deleted successfully!');
+                    loadTestimonials();
+                } else {
+                    alert('Error deleting testimonial. Please try again.');
+                }
+            } catch (error) {
+                console.error('Error deleting testimonial:', error);
+                alert('Error deleting testimonial. Please try again.');
+            }
+        }
+
+        // Check if user is already logged in
+        window.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('adminToken');
+            if (token) {
+                // For demo purposes, auto-login
+                currentUser = { username: 'admin' };
+                showAdminDashboard();
+                loadMenuItems();
+                loadTestimonials();
+            }
+        });
+    </script>
 </body>
 </html>
