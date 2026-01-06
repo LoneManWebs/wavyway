@@ -251,332 +251,488 @@
     </div>
 
     <script>
-        // API Configuration
-        const API_BASE = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-            ? 'http://localhost:3000'
-            : 'https://api.auraelixir-lb.xyz';
+    let currentUser = null;
+    const API_BASE = window.location.origin; // Use current origin
+
+    // Login functionality
+    document.getElementById('loginForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
         
-        let currentUser = null;
-        let editingItemId = null;
-        let editingTestimonialId = null;
-
-        // Login functionality
-        document.getElementById('loginForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const credentials = {
-                username: document.getElementById('username').value,
-                password: document.getElementById('password').value
-            };
-            
-            try {
-                const response = await fetch(`${API_BASE}/api/admin/login`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(credentials)
-                });
-                
-                const data = await response.json();
-                
-                if (data.success) {
-                    currentUser = data.user;
-                    localStorage.setItem('adminToken', data.token);
-                    showAdminDashboard();
-                    loadMenuItems();
-                    loadTestimonials();
-                } else {
-                    alert('Invalid credentials. Please try again.');
-                }
-            } catch (error) {
-                console.error('Login error:', error);
-                alert('Login failed. Please try again.');
-            }
-        });
-
-        // Logout
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            localStorage.removeItem('adminToken');
-            currentUser = null;
-            showLoginScreen();
-        });
-
-        // Navigation
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.addEventListener('click', function(e) {
-                if (this.dataset.section) {
-                    e.preventDefault();
-                    
-                    // Remove active class from all nav items
-                    document.querySelectorAll('.nav-item').forEach(nav => {
-                        nav.classList.remove('active');
-                    });
-                    
-                    // Add active class to clicked item
-                    this.classList.add('active');
-                    
-                    // Hide all sections
-                    document.querySelectorAll('[id$="Section"]').forEach(section => {
-                        section.classList.add('hidden');
-                    });
-                    
-                    // Show selected section
-                    const sectionId = this.dataset.section + 'Section';
-                    document.getElementById(sectionId).classList.remove('hidden');
-                    
-                    // Load data for section
-                    if (sectionId === 'menuSection') {
-                        loadMenuItems();
-                    } else if (sectionId === 'testimonialsSection') {
-                        loadTestimonials();
-                    }
-                }
+        const credentials = {
+            username: document.getElementById('username').value,
+            password: document.getElementById('password').value
+        };
+        
+        try {
+            const response = await fetch('/api/admin/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(credentials)
             });
-        });
-
-        // Show/Hide screens
-        function showLoginScreen() {
-            document.getElementById('loginScreen').classList.remove('hidden');
-            document.getElementById('adminDashboard').classList.add('hidden');
-        }
-
-        function showAdminDashboard() {
-            document.getElementById('loginScreen').classList.add('hidden');
-            document.getElementById('adminDashboard').classList.remove('hidden');
             
-            // Set menu section as active by default
-            document.querySelector('[data-section="menu"]').click();
-        }
-
-        // Modal functions
-        function showAddItemModal() {
-            document.getElementById('modalTitle').textContent = 'Add Menu Item';
-            document.getElementById('itemId').value = '';
-            document.getElementById('itemName').value = '';
-            document.getElementById('itemDescription').value = '';
-            document.getElementById('itemPrice').value = '';
-            document.getElementById('itemCategory').value = '';
-            
-            editingItemId = null;
-            document.getElementById('itemModal').classList.remove('hidden');
-        }
-
-        function showEditItemModal(item) {
-            document.getElementById('modalTitle').textContent = 'Edit Menu Item';
-            document.getElementById('itemId').value = item.id;
-            document.getElementById('itemName').value = item.name;
-            document.getElementById('itemDescription').value = item.description || '';
-            document.getElementById('itemPrice').value = item.price;
-            document.getElementById('itemCategory').value = item.category;
-            
-            editingItemId = item.id;
-            document.getElementById('itemModal').classList.remove('hidden');
-        }
-
-        function closeModal() {
-            document.getElementById('itemModal').classList.add('hidden');
-        }
-
-        function showAddTestimonialModal() {
-            document.getElementById('customerName').value = '';
-            document.getElementById('rating').value = '5';
-            document.getElementById('comment').value = '';
-            editingTestimonialId = null;
-            document.getElementById('testimonialModal').classList.remove('hidden');
-        }
-
-        function closeTestimonialModal() {
-            document.getElementById('testimonialModal').classList.add('hidden');
-        }
-
-        // Load menu items
-        async function loadMenuItems() {
-            try {
-                const response = await fetch(`${API_BASE}/api/menu`);
-                const items = await response.json();
-                const tableBody = document.getElementById('menuTableBody');
-                
-                tableBody.innerHTML = items.map(item => `
-                    <tr class="border-t">
-                        <td class="py-4 px-6">${item.id}</td>
-                        <td class="py-4 px-6">
-                            <div class="font-semibold">${item.name}</div>
-                            <div class="text-sm text-gray-500">${item.description || 'No description'}</div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
-                                ${item.category}
-                            </span>
-                        </td>
-                        <td class="py-4 px-6 font-semibold">$${item.price.toFixed(2)}</td>
-                        <td class="py-4 px-6">
-                            <div class="flex space-x-2">
-                                <button onclick="showEditItemModal(${JSON.stringify(item).replace(/"/g, '&quot;')})" 
-                                        class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
-                                    Edit
-                                </button>
-                                <button onclick="deleteMenuItem(${item.id})" 
-                                        class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
-                                    Delete
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading menu items:', error);
-                alert('Failed to load menu items');
+            if (!response.ok) {
+                throw new Error('Login failed');
             }
-        }
-
-        // Load testimonials
-        async function loadTestimonials() {
-            try {
-                const response = await fetch(`${API_BASE}/api/testimonials`);
-                const testimonials = await response.json();
-                const tableBody = document.getElementById('testimonialsTableBody');
-                
-                tableBody.innerHTML = testimonials.map(testimonial => `
-                    <tr class="border-t">
-                        <td class="py-4 px-6">${testimonial.id}</td>
-                        <td class="py-4 px-6 font-semibold">${testimonial.customer_name}</td>
-                        <td class="py-4 px-6 text-gray-600">${testimonial.comment}</td>
-                        <td class="py-4 px-6">
-                            <div class="text-yellow-500">
-                                ${'★'.repeat(testimonial.rating)}${'☆'.repeat(5 - testimonial.rating)}
-                            </div>
-                        </td>
-                        <td class="py-4 px-6">
-                            <button onclick="deleteTestimonial(${testimonial.id})" 
-                                    class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
-                                Delete
-                            </button>
-                        </td>
-                    </tr>
-                `).join('');
-            } catch (error) {
-                console.error('Error loading testimonials:', error);
-                alert('Failed to load testimonials');
-            }
-        }
-
-        // Save menu item
-        document.getElementById('itemForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
             
-            const itemData = {
-                name: document.getElementById('itemName').value,
-                description: document.getElementById('itemDescription').value,
-                price: document.getElementById('itemPrice').value,
-                category: document.getElementById('itemCategory').value
-            };
+            const data = await response.json();
             
-            const itemId = document.getElementById('itemId').value;
-            const url = itemId ? `${API_BASE}/api/menu/${itemId}` : `${API_BASE}/api/menu`;
-            const method = itemId ? 'PUT' : 'POST';
-            
-            try {
-                const response = await fetch(url, {
-                    method: method,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(itemData)
-                });
-                
-                if (response.ok) {
-                    alert(itemId ? 'Item updated successfully!' : 'Item added successfully!');
-                    closeModal();
-                    loadMenuItems();
-                } else {
-                    alert('Error saving item. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error saving item:', error);
-                alert('Error saving item. Please try again.');
-            }
-        });
-
-        // Add testimonial
-        document.getElementById('testimonialForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            const testimonialData = {
-                customer_name: document.getElementById('customerName').value,
-                comment: document.getElementById('comment').value,
-                rating: parseInt(document.getElementById('rating').value)
-            };
-            
-            try {
-                const response = await fetch(`${API_BASE}/api/testimonials`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(testimonialData)
-                });
-                
-                if (response.ok) {
-                    alert('Testimonial added successfully!');
-                    closeTestimonialModal();
-                    loadTestimonials();
-                } else {
-                    alert('Error adding testimonial. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error adding testimonial:', error);
-                alert('Error adding testimonial. Please try again.');
-            }
-        });
-
-        // Delete menu item
-        async function deleteMenuItem(id) {
-            if (!confirm('Are you sure you want to delete this menu item?')) return;
-            
-            try {
-                const response = await fetch(`${API_BASE}/api/menu/${id}`, {
-                    method: 'DELETE'
-                });
-                
-                if (response.ok) {
-                    alert('Menu item deleted successfully!');
-                    loadMenuItems();
-                } else {
-                    alert('Error deleting item. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error deleting item:', error);
-                alert('Error deleting item. Please try again.');
-            }
-        }
-
-        // Delete testimonial
-        async function deleteTestimonial(id) {
-            if (!confirm('Are you sure you want to delete this testimonial?')) return;
-            
-            try {
-                const response = await fetch(`${API_BASE}/api/testimonials/${id}`, {
-                    method: 'DELETE'
-                });
-                
-                if (response.ok) {
-                    alert('Testimonial deleted successfully!');
-                    loadTestimonials();
-                } else {
-                    alert('Error deleting testimonial. Please try again.');
-                }
-            } catch (error) {
-                console.error('Error deleting testimonial:', error);
-                alert('Error deleting testimonial. Please try again.');
-            }
-        }
-
-        // Check if user is already logged in
-        window.addEventListener('DOMContentLoaded', function() {
-            const token = localStorage.getItem('adminToken');
-            if (token) {
-                // For demo purposes, auto-login
-                currentUser = { username: 'admin' };
+            if (data.success) {
+                currentUser = data.user;
+                localStorage.setItem('adminToken', data.token);
                 showAdminDashboard();
-                loadMenuItems();
-                loadTestimonials();
+                loadDashboardData();
+            } else {
+                alert('Invalid credentials. Please try again.');
             }
+        } catch (error) {
+            console.error('Login error:', error);
+            alert('Login failed. Please check credentials and server connection.');
+        }
+    });
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        localStorage.removeItem('adminToken');
+        currentUser = null;
+        showLoginScreen();
+    });
+
+    // Navigation between sections
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Remove active class from all nav items
+            document.querySelectorAll('.nav-item').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            // Add active class to clicked item
+            this.classList.add('active');
+            
+            // Hide all sections
+            document.querySelectorAll('[id$="Section"]').forEach(section => {
+                section.classList.add('hidden');
+            });
+            
+            // Show selected section
+            const sectionId = this.dataset.section + 'Section';
+            document.getElementById(sectionId).classList.remove('hidden');
         });
-    </script>
+    });
+
+    // Show/Hide screens
+    function showLoginScreen() {
+        document.getElementById('loginScreen').classList.remove('hidden');
+        document.getElementById('adminDashboard').classList.add('hidden');
+    }
+
+    function showAdminDashboard() {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('adminDashboard').classList.remove('hidden');
+        
+        // Set first nav item as active
+        document.querySelector('.nav-item').click();
+    }
+
+    // Modal functions
+    function showAddItemModal() {
+        document.getElementById('modalTitle').textContent = 'Add Menu Item';
+        document.getElementById('itemId').value = '';
+        document.getElementById('itemName').value = '';
+        document.getElementById('itemDescription').value = '';
+        document.getElementById('itemPrice').value = '';
+        document.getElementById('itemCategory').value = '';
+        document.getElementById('itemImage').value = '';
+        document.getElementById('imagePreview').classList.add('hidden');
+        
+        document.getElementById('itemModal').classList.remove('hidden');
+    }
+
+    function showEditItemModal(item) {
+        document.getElementById('modalTitle').textContent = 'Edit Menu Item';
+        document.getElementById('itemId').value = item.id;
+        document.getElementById('itemName').value = item.name || '';
+        document.getElementById('itemDescription').value = item.description || '';
+        document.getElementById('itemPrice').value = item.price || '';
+        document.getElementById('itemCategory').value = item.category || '';
+        
+        if (item.image_url) {
+            document.getElementById('previewImage').src = item.image_url;
+            document.getElementById('imagePreview').classList.remove('hidden');
+        } else {
+            document.getElementById('imagePreview').classList.add('hidden');
+        }
+        
+        document.getElementById('itemModal').classList.remove('hidden');
+    }
+
+    function closeModal() {
+        document.getElementById('itemModal').classList.add('hidden');
+    }
+
+    function showTestimonialModal() {
+        document.getElementById('adminCustomerName').value = '';
+        document.getElementById('adminRating').value = '5';
+        document.getElementById('adminComment').value = '';
+        document.getElementById('testimonialModal').classList.remove('hidden');
+    }
+
+    function closeTestimonialModal() {
+        document.getElementById('testimonialModal').classList.add('hidden');
+    }
+
+    // Image preview
+    document.getElementById('itemImage').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('previewImage').src = e.target.result;
+                document.getElementById('imagePreview').classList.remove('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    // Load dashboard data
+    async function loadDashboardData() {
+        try {
+            const [menuResponse, testimonialsResponse] = await Promise.all([
+                fetch('/api/menu'),
+                fetch('/api/testimonials')
+            ]);
+            
+            if (!menuResponse.ok || !testimonialsResponse.ok) {
+                throw new Error('Failed to fetch data');
+            }
+            
+            const menuItems = await menuResponse.json();
+            const testimonials = await testimonialsResponse.json();
+            
+            // Update statistics
+            document.getElementById('totalItems').textContent = menuItems.length;
+            document.getElementById('totalTestimonials').textContent = testimonials.length;
+            
+            // Count unique categories
+            const categories = [...new Set(menuItems.map(item => item.category))];
+            document.getElementById('totalCategories').textContent = categories.length;
+            
+            // Load menu items table
+            loadMenuItemsTable(menuItems);
+            
+            // Load testimonials table
+            loadTestimonialsTable(testimonials);
+            
+            // Load recent activity
+            loadRecentActivity(menuItems, testimonials);
+            
+            // Load recent testimonials
+            loadRecentTestimonials(testimonials);
+            
+        } catch (error) {
+            console.error('Error loading dashboard data:', error);
+            alert('Failed to load dashboard data. Please check server connection.');
+        }
+    }
+
+    // Load menu items table
+    function loadMenuItemsTable(menuItems) {
+        const tableBody = document.getElementById('menuTableBody');
+        tableBody.innerHTML = '';
+        
+        menuItems.forEach(item => {
+            const row = document.createElement('tr');
+            row.className = 'table-row border-t';
+            row.innerHTML = `
+                <td class="py-4 px-6">
+                    ${item.image_url 
+                        ? `<img src="${item.image_url}" alt="${item.name}" class="w-16 h-16 object-cover rounded">`
+                        : `<div class="w-16 h-16 bg-gray-200 rounded flex items-center justify-center">
+                             <i class="fas fa-utensils text-gray-400"></i>
+                           </div>`
+                    }
+                </td>
+                <td class="py-4 px-6">
+                    <div>
+                        <div class="font-semibold">${escapeHtml(item.name)}</div>
+                        <div class="text-sm text-gray-500">${escapeHtml(item.description || 'No description')}</div>
+                    </div>
+                </td>
+                <td class="py-4 px-6">
+                    <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
+                        ${escapeHtml(item.category)}
+                    </span>
+                </td>
+                <td class="py-4 px-6 font-semibold">$${parseFloat(item.price || 0).toFixed(2)}</td>
+                <td class="py-4 px-6">
+                    <div class="flex space-x-2">
+                        <button onclick="editMenuItem(${item.id})" 
+                                class="px-3 py-1 bg-blue-100 text-blue-700 rounded hover:bg-blue-200">
+                            Edit
+                        </button>
+                        <button onclick="deleteMenuItem(${item.id})" 
+                                class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                            Delete
+                        </button>
+                    </div>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Load testimonials table
+    function loadTestimonialsTable(testimonials) {
+        const tableBody = document.getElementById('testimonialsTableBody');
+        tableBody.innerHTML = '';
+        
+        testimonials.forEach(testimonial => {
+            const row = document.createElement('tr');
+            row.className = 'table-row border-t';
+            row.innerHTML = `
+                <td class="py-4 px-6 font-semibold">${escapeHtml(testimonial.customer_name)}</td>
+                <td class="py-4 px-6 text-gray-600">${escapeHtml(testimonial.comment)}</td>
+                <td class="py-4 px-6">
+                    <div class="text-yellow-500">
+                        ${'★'.repeat(testimonial.rating || 0)}${'☆'.repeat(5 - (testimonial.rating || 0))}
+                    </div>
+                </td>
+                <td class="py-4 px-6 text-sm text-gray-500">
+                    ${new Date(testimonial.created_at || Date.now()).toLocaleDateString()}
+                </td>
+                <td class="py-4 px-6">
+                    <button onclick="deleteTestimonial(${testimonial.id})" 
+                            class="px-3 py-1 bg-red-100 text-red-700 rounded hover:bg-red-200">
+                        Delete
+                    </button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // Load recent activity
+    function loadRecentActivity(menuItems, testimonials) {
+        const activityContainer = document.getElementById('recentActivity');
+        activityContainer.innerHTML = '';
+        
+        // Combine and sort by date (most recent first)
+        const activities = [
+            ...menuItems.slice(0, 3).map(item => ({
+                type: 'menu',
+                text: `Menu item: "${item.name}"`,
+                date: item.created_at
+            })),
+            ...testimonials.slice(0, 3).map(testimonial => ({
+                type: 'testimonial',
+                text: `Review from ${testimonial.customer_name}`,
+                date: testimonial.created_at
+            }))
+        ].sort((a, b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+        
+        activities.forEach(activity => {
+            const activityElement = document.createElement('div');
+            activityElement.className = 'flex items-center p-3 bg-gray-50 rounded-lg';
+            activityElement.innerHTML = `
+                <div class="mr-4">
+                    <div class="w-10 h-10 rounded-full flex items-center justify-center ${
+                        activity.type === 'menu' ? 'bg-blue-100' : 'bg-green-100'
+                    }">
+                        <i class="fas ${
+                            activity.type === 'menu' ? 'fa-utensils text-blue-600' : 'fa-star text-green-600'
+                        }"></i>
+                    </div>
+                </div>
+                <div class="flex-1">
+                    <div class="font-medium">${escapeHtml(activity.text)}</div>
+                    <div class="text-sm text-gray-500">
+                        ${new Date(activity.date).toLocaleString()}
+                    </div>
+                </div>
+            `;
+            activityContainer.appendChild(activityElement);
+        });
+    }
+
+    // Load recent testimonials
+    function loadRecentTestimonials(testimonials) {
+        const container = document.getElementById('recentTestimonials');
+        container.innerHTML = '';
+        
+        testimonials.slice(0, 3).forEach(testimonial => {
+            const element = document.createElement('div');
+            element.className = 'p-4 border border-gray-200 rounded-lg';
+            element.innerHTML = `
+                <div class="flex justify-between items-start mb-2">
+                    <div class="font-semibold">${escapeHtml(testimonial.customer_name)}</div>
+                    <div class="text-yellow-500">
+                        ${'★'.repeat(testimonial.rating || 0)}${'☆'.repeat(5 - (testimonial.rating || 0))}
+                    </div>
+                </div>
+                <p class="text-gray-600 text-sm mb-2">"${escapeHtml(testimonial.comment)}"</p>
+                <div class="text-xs text-gray-400">
+                    ${new Date(testimonial.created_at || Date.now()).toLocaleDateString()}
+                </div>
+            `;
+            container.appendChild(element);
+        });
+    }
+
+    // Edit menu item - fetch item data first
+    async function editMenuItem(id) {
+        try {
+            const response = await fetch(`/api/menu/${id}`);
+            if (!response.ok) {
+                throw new Error('Failed to fetch item');
+            }
+            const item = await response.json();
+            showEditItemModal(item);
+        } catch (error) {
+            console.error('Error fetching item:', error);
+            alert('Failed to load item data');
+        }
+    }
+
+    // Save menu item
+    document.getElementById('itemForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData();
+        formData.append('name', document.getElementById('itemName').value);
+        formData.append('description', document.getElementById('itemDescription').value);
+        formData.append('price', document.getElementById('itemPrice').value);
+        formData.append('category', document.getElementById('itemCategory').value);
+        
+        const imageFile = document.getElementById('itemImage').files[0];
+        if (imageFile) {
+            formData.append('image', imageFile);
+        }
+        
+        const itemId = document.getElementById('itemId').value;
+        const url = itemId ? `/api/menu/${itemId}` : '/api/menu';
+        const method = itemId ? 'PUT' : 'POST';
+        
+        try {
+            const response = await fetch(url, {
+                method: method,
+                body: formData
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert(itemId ? 'Item updated successfully!' : 'Item added successfully!');
+                closeModal();
+                loadDashboardData();
+            } else {
+                alert(data.error || 'Error saving item. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error saving item:', error);
+            alert('Error saving item. Please try again.');
+        }
+    });
+
+    // Delete menu item
+    async function deleteMenuItem(id) {
+        if (!confirm('Are you sure you want to delete this item?')) return;
+        
+        try {
+            const response = await fetch(`/api/menu/${id}`, {
+                method: 'DELETE'
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Item deleted successfully!');
+                loadDashboardData();
+            } else {
+                alert(data.error || 'Error deleting item. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error deleting item:', error);
+            alert('Error deleting item. Please try again.');
+        }
+    }
+
+    // Delete testimonial
+    async function deleteTestimonial(id) {
+        if (!confirm('Are you sure you want to delete this testimonial?')) return;
+        
+        try {
+            const response = await fetch(`/api/testimonials/${id}`, {
+                method: 'DELETE'
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Testimonial deleted successfully!');
+                loadDashboardData();
+            } else {
+                alert(data.error || 'Error deleting testimonial. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error deleting testimonial:', error);
+            alert('Error deleting testimonial. Please try again.');
+        }
+    }
+
+    // Add testimonial from admin
+    document.getElementById('adminTestimonialForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const testimonial = {
+            customer_name: document.getElementById('adminCustomerName').value,
+            comment: document.getElementById('adminComment').value,
+            rating: parseInt(document.getElementById('adminRating').value)
+        };
+        
+        try {
+            const response = await fetch('/api/testimonials', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(testimonial)
+            });
+            
+            const data = await response.json();
+            
+            if (response.ok) {
+                alert('Testimonial added successfully!');
+                closeTestimonialModal();
+                loadDashboardData();
+            } else {
+                alert(data.error || 'Error adding testimonial. Please try again.');
+            }
+        } catch (error) {
+            console.error('Error adding testimonial:', error);
+            alert('Error adding testimonial. Please try again.');
+        }
+    });
+
+    // Utility function to escape HTML
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // Check if user is already logged in
+    window.addEventListener('DOMContentLoaded', function() {
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+            // In a real app, verify token with server
+            currentUser = { username: 'admin' };
+            showAdminDashboard();
+            loadDashboardData();
+        }
+    });
+</script>
 </body>
 </html>
