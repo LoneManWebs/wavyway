@@ -390,6 +390,12 @@
         document.getElementById('testimonialModal').classList.remove('hidden');
     }
 
+        function showAddTestimonialModal() {
+    document.getElementById('adminCustomerName').value = '';
+    document.getElementById('adminRating').value = '5';
+    document.getElementById('adminComment').value = '';
+    document.getElementById('testimonialModal').classList.remove('hidden');
+}
     function closeTestimonialModal() {
         document.getElementById('testimonialModal').classList.add('hidden');
     }
